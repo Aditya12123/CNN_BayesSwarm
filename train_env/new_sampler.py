@@ -3,7 +3,6 @@ import random
 
 import numpy as np
 import matplotlib.pyplot as plt
-from robot_source import Source
 
 
 class Sampler:
@@ -11,63 +10,62 @@ class Sampler:
         self.observation_frequency = obs_frequency
         self.velocity = velocity
         self.resolution = resolution
-        self.robot_obs = {}
         self.iterations = 0
-        self.new_array = []
+        self.robots_arr = [20, 30, 50]
+        self.distance_arr = [10, 15, 22, 30, 50]
+
+    def generate_initial_trajectory(self):
+        """
+        Generates Initial trajectory as seen in BayesSwarm
+
+        """
+        location_data = self.data[self.centre_pt, :2]
+        trajectory_endpoints = []
+        min_datapoints = 100
+
+        for k in range(self.n_robots):
+            theta = 1 * (k + 1) * 360 / self.n_robots
+            theta = theta * np.pi / 180
+
+            for j in range(self.trajectory_length):
+                x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
+                y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
+                location_data = np.vstack((location_data, np.array([x, y])))
+
+            trajectory_endpoints.append(location_data[len(location_data) - 1])
+            if len(location_data) >= min_datapoints:
+                break
+
+            location_data = np.clip(location_data, self.lb, self.ub)
+
+        while len(location_data) < min_datapoints:
+            location_data, trajectory_endpoints = self.random_observations(location_data, trajectory_endpoints)
+        
+        return location_data, trajectory_endpoints
 
     def reset(self, source, reset_counter):
         self.robot_iterations = 0
         self.data, self.lb, self.ub = source.get_info()
-        self.source = source
-        centre_pt = int(self.data.shape[0] / 2) + int(self.resolution / 2)
-        self.centre_pt = centre_pt
+        self.centre_pt = int(self.data.shape[0] / 2) + int(self.resolution / 2)
         self.dist_x = self.dist_y = self.observation_frequency * self.velocity
 
-        r = 100
-        store_arr = []
-
-        robots_arr = [20, 30, 50]
-        distance_arr = [10, 15, 22, 30, 50]
-
-        n_robots_counter = np.int32(reset_counter/len(distance_arr))
-        n_robots_counter = np.mod(n_robots_counter, len(robots_arr))
+        n_robots_counter = np.int32(reset_counter/len(self.robots_arr))
+        n_robots_counter = np.mod(n_robots_counter, len(self.robots_arr))
         dist_tr_counter = np.int32(reset_counter / 1)
-        dist_tr_counter = np.mod(dist_tr_counter, len(distance_arr))
+        dist_tr_counter = np.mod(dist_tr_counter, len(self.distance_arr))
 
-        self.n_robots = robots_arr[n_robots_counter]
+        self.n_robots = self.robots_arr[n_robots_counter]
         self.x = 0
 
-        self.distance_tr = distance_arr[dist_tr_counter]
-        q = 1
-        self.q = q
+        self.trajectory_length = self.distance_arr[dist_tr_counter]
 
-        print(f"Robots: {self.n_robots}, dist: {self.distance_tr}, angle: {q}")
+        print(f"Robots: {self.n_robots}, dist: {self.trajectory_length}, angle: {q}")
 
-        pts = self.data[centre_pt, :2]
+        location_data, trajectory_endpoints = self.generate_initial_trajectory()
 
-        # for q in range(10):
-        for k in range(self.n_robots):
-            theta = 1 * (k + q) * 360 / self.n_robots
-            theta = theta * np.pi / 180
-
-            for j in range(self.distance_tr):
-                x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
-                y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
-                pts = np.vstack((pts, np.array([x, y])))
-
-            store_arr.append(pts[len(pts) - 1])
-            if len(pts) >= r:
-                break
-
-            pts = np.clip(pts, self.lb, self.ub)
-
-        while len(pts) < r:
-            pts, store_arr = self.random_observations(pts, store_arr)
-        D_old = pts
         self.iterations = 0
-        self.new_array = []
 
-        return D_old, store_arr
+        return location_data, trajectory_endpoints
 
     def create_new_obs(self, D_old, store_arr, just_random_obs):
 
@@ -80,8 +78,6 @@ class Sampler:
             return new_obs, store_arr_new
 
         elif just_random_obs == 1:
-            # print("CEntre Lines")
-            # os.system('pause')
             new_obs, store_arr_new = self.random_centre_lines(D_old, store_arr)
             return new_obs, store_arr_new
 
@@ -92,15 +88,13 @@ class Sampler:
     def remaining_lines(self, D_old, store_arr):
         store_arr_new = store_arr.copy()
         centre_pt = self.centre_pt
-        theta = (len(store_arr) + self.q) * 360 / self.n_robots
+        theta = (len(store_arr) + 1) * 360 / self.n_robots
         theta = theta * np.pi / 180
         pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
 
-        for j in range(self.distance_tr):
+        for j in range(self.trajectory_length):
             x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
             y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
-            # print(np.array([x, y]), pts)
-            # os.system("pause")
             pts = np.vstack((pts, np.array([x, y])))
 
         store_arr_new.append(pts[len(pts) - 1])
@@ -120,11 +114,9 @@ class Sampler:
         theta = theta * np.pi / 180
         pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
 
-        for j in range(self.distance_tr):
+        for j in range(self.trajectory_length):
             x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
             y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
-            # print(np.array([x, y]), pts)
-            # os.system("pause")
             pts = np.vstack((pts, np.array([x, y])))
 
         store_arr_new.append(pts[len(pts) - 1])
@@ -137,18 +129,15 @@ class Sampler:
         return np.clip(new_obs, self.lb, self.ub), store_arr_new
 
     def random_observations(self, D_old, store_arr):
-        # print(len(store_arr))
-        # os.system('pause')
         store_arr_new = store_arr.copy()
         current_index = np.mod(self.iterations, len(store_arr))
-        # current_index = np.random.randint(0, len(store_arr))
         theta = np.random.randint(10, 350)
         theta = theta * np.pi / 180
-        distance_tr = np.random.randint(3, 50)
+        trajectory_length = np.random.randint(3, 50)
         req_pts = store_arr_new[current_index]
         pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
 
-        for j in range(distance_tr):
+        for j in range(trajectory_length):
             x = req_pts[0] + np.cos(theta) * j * self.dist_x
             y = req_pts[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
@@ -174,7 +163,7 @@ class Sampler:
             theta = 1 * (k + q) * 360 / self.n_robots
             theta = theta * np.pi / 180
 
-            for j in range(self.distance_tr):
+            for j in range(self.trajectory_length):
                 x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
                 y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
                 pts = np.vstack((pts, np.array([x, y])))
@@ -187,10 +176,8 @@ class Sampler:
 
         while len(pts) < r:
             pts, store_arr = self.random_observations(pts, store_arr)
-        # D_old = self.source.measure_signal(pts)
-        # D_old = pts
+
         self.iterations = 0
-        self.new_array = []
         # plt.scatter(D_old[:, 0], D_old[:, 1]), plt.title(f"total_obs: {len(D_old)}, r: {r}, n_robots: {self.n_robots}")
         # plt.xlim(-24, 24), plt.ylim(-24, 24)
         # plt.show()
@@ -198,8 +185,6 @@ class Sampler:
         return pts, store_arr
 
     def just_one_robot(self, D_old, store_arr):
-        # print(len(store_arr))
-        # os.system('pause')
         store_arr_new = store_arr.copy()
         if self.x < len(store_arr):
             if self.robot_iterations % 15 == 0:
@@ -211,11 +196,11 @@ class Sampler:
         # current_index = np.random.randint(0, len(store_arr))
         theta = np.random.randint(10, 350)
         theta = theta * np.pi / 180
-        distance_tr = np.random.randint(3, 10)
+        trajectory_length = np.random.randint(3, 10)
         req_pts = store_arr_new[current_index]
         pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
 
-        for j in range(distance_tr):
+        for j in range(trajectory_length):
             x = req_pts[0] + np.cos(theta) * j * self.dist_x
             y = req_pts[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
