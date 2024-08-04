@@ -39,23 +39,20 @@ class Sampler:
             location_data = np.clip(location_data, self.lb, self.ub)
 
         while len(location_data) < min_datapoints:
-            location_data, trajectory_endpoints = self.random_observations(location_data, trajectory_endpoints)
-        
+            location_data, trajectory_endpoints = self.random_observations(
+                location_data, trajectory_endpoints
+            )
+
         return location_data, trajectory_endpoints
 
     def reset(self, source, reset_counter):
-        """
-
-        :param source:
-        :param reset_counter:
-        :return:
-        """
+        
         self.robot_iterations = 0
         self.data, self.lb, self.ub = source.get_info()
         self.centre_pt = int(self.data.shape[0] / 2) + int(self.resolution / 2)
         self.dist_x = self.dist_y = self.observation_frequency * self.velocity
 
-        n_robots_counter = np.int32(reset_counter/len(self.robots_arr))
+        n_robots_counter = np.int32(reset_counter / len(self.robots_arr))
         n_robots_counter = np.mod(n_robots_counter, len(self.robots_arr))
         dist_tr_counter = np.int32(reset_counter / 1)
         dist_tr_counter = np.mod(dist_tr_counter, len(self.distance_arr))
@@ -73,7 +70,9 @@ class Sampler:
 
         return location_data, trajectory_endpoints
 
-    def generate_new_trajectories(self, current_trajectories, trajectories_endpoint, new_trajectory_type):
+    def generate_new_trajectories(
+        self, current_trajectories, trajectories_endpoint, new_trajectory_type
+    ):
         """
 
         :param current_trajectories: Data-set of all the locations visited by the robots (Trajectories generated so far)
@@ -91,19 +90,27 @@ class Sampler:
         """
 
         if new_trajectory_type == 0:
-            new_obs, store_arr_new = self.random_observations(current_trajectories, trajectories_endpoint)
+            new_obs, store_arr_new = self.random_observations(
+                current_trajectories, trajectories_endpoint
+            )
             return new_obs, store_arr_new
 
         if len(trajectories_endpoint) < self.n_robots:
-            new_obs, store_arr_new = self.remaining_lines(current_trajectories, trajectories_endpoint)
+            new_obs, store_arr_new = self.remaining_lines(
+                current_trajectories, trajectories_endpoint
+            )
             return new_obs, store_arr_new
 
         elif new_trajectory_type == 1:
-            new_obs, store_arr_new = self.random_centre_lines(current_trajectories, trajectories_endpoint)
+            new_obs, store_arr_new = self.random_centre_lines(
+                current_trajectories, trajectories_endpoint
+            )
             return new_obs, store_arr_new
 
-        else:   # new_trajectory_type == 2
-            new_obs, store_arr_new = self.random_observations(current_trajectories, trajectories_endpoint)
+        else:  # new_trajectory_type == 2
+            new_obs, store_arr_new = self.random_observations(
+                current_trajectories, trajectories_endpoint
+            )
             return new_obs, store_arr_new
 
     def remaining_lines(self, D_old, store_arr):
