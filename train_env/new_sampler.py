@@ -28,8 +28,8 @@ class Sampler:
             theta = theta * np.pi / 180
 
             for j in range(self.trajectory_length):
-                x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
-                y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
+                x = self.data[self.centre_pt, 0] + np.cos(theta) * j * self.dist_x
+                y = self.data[self.centre_pt, 1] + np.sin(theta) * j * self.dist_y
                 location_data = np.vstack((location_data, np.array([x, y])))
 
             trajectory_endpoints.append(location_data[len(location_data) - 1])
@@ -44,6 +44,12 @@ class Sampler:
         return location_data, trajectory_endpoints
 
     def reset(self, source, reset_counter):
+        """
+
+        :param source:
+        :param reset_counter:
+        :return:
+        """
         self.robot_iterations = 0
         self.data, self.lb, self.ub = source.get_info()
         self.centre_pt = int(self.data.shape[0] / 2) + int(self.resolution / 2)
@@ -59,7 +65,7 @@ class Sampler:
 
         self.trajectory_length = self.distance_arr[dist_tr_counter]
 
-        print(f"Robots: {self.n_robots}, dist: {self.trajectory_length}, angle: {q}")
+        print(f"Robots: {self.n_robots}, dist: {self.trajectory_length}")
 
         location_data, trajectory_endpoints = self.generate_initial_trajectory()
 
@@ -67,22 +73,37 @@ class Sampler:
 
         return location_data, trajectory_endpoints
 
-    def create_new_obs(self, D_old, store_arr, just_random_obs):
+    def generate_new_trajectories(self, current_trajectories, trajectories_endpoint, new_trajectory_type):
+        """
 
-        if just_random_obs == 0:
-            new_obs, store_arr_new = self.random_observations(D_old, store_arr)
+        :param current_trajectories: Data-set of all the locations visited by the robots (Trajectories generated so far)
+        :param trajectories_endpoint: Last location data-point of all the trajectories generated so far
+        :param new_trajectory_type:
+        0, 2: Random trajectories from the last data-points of the current trajectories
+        1: Random trajectories (At random angles) from the center
+
+        If new_trajectory_type == 0: we generate random trajectories from the end locations of the current trajectories.
+        Else, if the length(trajectories_endpoint) is < number_robots, it means the circle is not divided into
+        equi-angular trajectories. We first complete the circle and then later on add random lines
+        (new_trajectory_type == 1 or 2).
+
+        :return: Location data-set
+        """
+
+        if new_trajectory_type == 0:
+            new_obs, store_arr_new = self.random_observations(current_trajectories, trajectories_endpoint)
             return new_obs, store_arr_new
 
-        if len(store_arr) < self.n_robots:
-            new_obs, store_arr_new = self.remaining_lines(D_old, store_arr)
+        if len(trajectories_endpoint) < self.n_robots:
+            new_obs, store_arr_new = self.remaining_lines(current_trajectories, trajectories_endpoint)
             return new_obs, store_arr_new
 
-        elif just_random_obs == 1:
-            new_obs, store_arr_new = self.random_centre_lines(D_old, store_arr)
+        elif new_trajectory_type == 1:
+            new_obs, store_arr_new = self.random_centre_lines(current_trajectories, trajectories_endpoint)
             return new_obs, store_arr_new
 
-        else:
-            new_obs, store_arr_new = self.random_observations(D_old, store_arr)
+        else:   # new_trajectory_type == 2
+            new_obs, store_arr_new = self.random_observations(current_trajectories, trajectories_endpoint)
             return new_obs, store_arr_new
 
     def remaining_lines(self, D_old, store_arr):
@@ -153,6 +174,7 @@ class Sampler:
         return np.clip(new_obs, self.lb, self.ub), store_arr_new
 
     def initial_shape_reset(self):
+
         centre_pt = self.centre_pt
         pts = self.data[centre_pt, :2]
         r = 100
@@ -209,7 +231,6 @@ class Sampler:
 
         new_obs = np.vstack((D_old[:, :2], pts))
         self.robot_iterations += 1
-        # self.iterations += 1
         # plt.scatter(new_obs[:, 0], new_obs[:, 1])
         # plt.xlim(-24, 24), plt.ylim(-24, 24)
         # plt.show()

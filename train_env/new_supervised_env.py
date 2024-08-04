@@ -28,7 +28,6 @@ class RobotEnv:
 
     def step(self, epoch=0):
         """
-
         Reset the sampler after certain number of iterations. Each time the sampler is reset, number_robots, 
         distance_travelled_per_trajectory changes
 
@@ -56,7 +55,7 @@ class RobotEnv:
                 if self.iter == 1 or self.iter == termination_lines + 150:
                     self.observations, self.trajectory_endpoints = self.sampler.reset(self.source, self.reset_counter - 1)
                 else:
-                    self.observations, self.trajectory_endpoints = self.sampler.create_new_obs(self.observations, self.trajectory_endpoints,
+                    self.observations, self.trajectory_endpoints = self.sampler.generate_new_trajectories(self.observations, self.trajectory_endpoints,
                                                                                         self.just_random)
 
             if self.num_images == 1:
