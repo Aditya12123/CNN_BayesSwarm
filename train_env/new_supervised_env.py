@@ -12,8 +12,6 @@ from geomloss import SamplesLoss
 class RobotEnv:
     def __init__(self, batch_size):
         self.trajectory_endpoints = None
-        self.last_state = None
-        self.D_new = None
         self.observations = None
         self.reset_counter = 0
         self.iter = 0
@@ -21,58 +19,64 @@ class RobotEnv:
         self.resolution = 100
         self.termination_iter = 600
         self.batch_size = batch_size
+        self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
         self.source = Source(self.resolution)
         self.mse_loss = nn.MSELoss()
-        self.sampler = Sampler(self.resolution, obs_frequency=1, velocity=1)
-        self.max_length = [0, 0]
+        self.sampler = Sampler(self.resolution)
 
-    def step(self, epoch=0):
+    def step(self):
         """
         Reset the sampler after certain number of iterations. Each time the sampler is reset, number_robots, 
         distance_travelled_per_trajectory changes
 
-        :param epoch:
         :return: Image of size [self.batch_size, 100, 100]
         """
-
-        self.epoch = epoch
 
         while self.num_images < self.batch_size:
             self.iter += 1
             self.num_images += 1
             termination_lines = 4 * self.sampler.n_robots
-            self.just_random = 1 if self.iter < termination_lines else 2
 
             if self.iter > 400:
                 if self.iter < 430 or self.iter > 585:
                     self.observations, self.trajectory_endpoints = self.sampler.initial_shape_reset()
+
                 elif 430 <= self.iter < 430 + self.sampler.n_robots:
                     self.observations, self.trajectory_endpoints = self.sampler.remaining_lines(self.observations, self.trajectory_endpoints)
+
                 else:
                     self.observations, self.trajectory_endpoints = self.sampler.just_one_robot(self.observations, self.trajectory_endpoints)
 
             else:
+
                 if self.iter == 1 or self.iter == termination_lines + 150:
                     self.observations, self.trajectory_endpoints = self.sampler.reset(self.source, self.reset_counter - 1)
+                
+                elif len(self.trajectory_endpoints) < self.sampler.n_robots:
+                    self.observations, self.trajectory_endpoints = self.sampler.remaining_lines(self.observations, self.trajectory_endpoints)
+                
+                elif self.iter < termination_lines:
+                    self.observations, self.trajectory_endpoints = self.sampler.random_centre_lines(self.observations, self.trajectory_endpoints)
+
                 else:
-                    self.observations, self.trajectory_endpoints = self.sampler.generate_new_trajectories(self.observations, self.trajectory_endpoints,
-                                                                                        self.just_random)
+                    self.observations, self.trajectory_endpoints = self.sampler.random_observations(self.observations, self.trajectory_endpoints)
 
             if self.num_images == 1:
-                self.total_obs = self.observations
-                self.number_observations = []
+                self.total_obs = []
+                self.total_obs.append(self.observations)
+                # self.num_obs_each_image = []
+                mtx = self.create_binary(self.observations)
             else:
-                self.total_obs = np.vstack((self.total_obs, self.observations))
-
-            self.number_observations.append(self.total_obs.shape[0])
-            done = True if self.iter >= self.termination_iter else False
-            if done:
+                self.total_obs.append(self.observations)
+                mtx = torch.concat((mtx, self.create_binary(self.observations)), dim=0)
+            
+            if self.iter >= self.termination_iter:
                 self.reset()
 
-        image = self.get_Image()
+            # print(self.observations.shape)
         self.num_images = 0
 
-        return image
+        return mtx
 
     def reset(self):
         self.iter = 0
@@ -81,23 +85,12 @@ class RobotEnv:
         self.observations, self.trajectory_endpoints = self.sampler.reset(self.source, self.reset_counter)
         self.reset_counter += 1
 
-    def get_Image(self):
-
-        for k in range(len(self.number_observations)):
-            if k == 0:
-                obs = self.total_obs[:self.number_observations[k]]
-                mtx = self.create_binary(obs)
-            else:
-                obs = self.total_obs[self.number_observations[k - 1] + 1:self.number_observations[k]]
-                mtx = torch.concat((mtx, self.create_binary(obs)), dim=0)
-
-        return mtx
-
     def create_binary(self, observations):
         """
-        
-        :param observations: 
-        :return: [X, Y, B] matrix according to our paper
+        Implementation of GenerateMatrix Function of our paper
+
+        :param observations: The location data-points collected by the robots
+        :return: [X, Y, B] matrix 
         
         """
         obs, N = observations, self.resolution
@@ -162,23 +155,16 @@ class RobotEnv:
 
     def loss(self, down_sampled):
         sinkhorn_loss = SamplesLoss(loss="sinkhorn", p=2, blur=2)
-        observations = torch.tensor(self.total_obs, dtype=torch.float32).to('cpu')
-    
-        for k in range(len(self.number_observations)):
-            if k == 0:
-                obs = observations[:self.number_observations[k]]
-                dwn = down_sampled[k]
-                dwn_totalSubset_xy = self.nearest_points(obs, model_output=dwn[:, :2])
-                s_l = sinkhorn_loss(obs[:, :2], dwn[:, :2])
-                m_l = self.mse_loss(dwn[:, :2], dwn_totalSubset_xy)
-                dwn_sample_loss = s_l + m_l
-            else:
-                obs = observations[self.number_observations[k - 1]:self.number_observations[k]]
-                dwn = down_sampled[k]
-                dwn_totalSubset_xy = self.nearest_points(obs, model_output=dwn)
-                dwn_sample_loss += sinkhorn_loss(obs[:, :2], dwn[:, :2])
-                dwn_sample_loss += self.mse_loss(dwn[:, :2], dwn_totalSubset_xy)
-    
+        dwn_sample_loss = 0
+
+        for k in range(len(self.total_obs)):
+            obs = torch.tensor(self.total_obs[k], dtype=torch.float32).to(self.device)
+            dwn = down_sampled[k]
+            print(obs.shape, dwn.shape)
+            dwn_totalSubset_xy = self.nearest_points(obs, model_output=dwn)
+            dwn_sample_loss += sinkhorn_loss(obs[:, :2], dwn[:, :2])
+            dwn_sample_loss += self.mse_loss(dwn[:, :2], dwn_totalSubset_xy)
+        
         dwn_sample_loss = dwn_sample_loss / self.batch_size
 
         loss = dwn_sample_loss

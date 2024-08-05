@@ -9,7 +9,7 @@ import torch.optim as optim
 # import run_case_studies as cs
 
 batch_size = 5
-env = RobotEnv(batch_size=batch_size, obs_freq=1, velocity=1)
+env = RobotEnv(batch_size=batch_size)
 epochs = 601
 env.reset()
 device = torch.device('cpu')
@@ -35,7 +35,7 @@ for epoch in range(epochs):
     tr_loss = []
 
     for batch in range(batches):
-        image = env.step(epoch=epoch)
+        image = env.step()
         image = image.to(device)
         down_sampled = model(image)
         loss = env.loss(down_sampled)
