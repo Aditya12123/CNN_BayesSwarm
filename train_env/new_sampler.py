@@ -70,49 +70,6 @@ class Sampler:
 
         return location_data, trajectory_endpoints
 
-    # def generate_new_trajectories(
-    #     self, current_trajectories, trajectories_endpoint, new_trajectory_type
-    # ):
-    #     """
-
-    #     :param current_trajectories: Data-set of all the locations visited by the robots (Trajectories generated so far)
-    #     :param trajectories_endpoint: Last location data-point of all the trajectories generated so far
-    #     :param new_trajectory_type:
-    #     0, 2: Random trajectories from the last data-points of the current trajectories
-    #     1: Random trajectories (At random angles) from the center
-
-    #     If new_trajectory_type == 0: we generate random trajectories from the end locations of the current trajectories.
-    #     Else, if the length(trajectories_endpoint) is < number_robots, it means the circle is not divided into
-    #     equi-angular trajectories. We first complete the circle and then later on add random lines
-    #     (new_trajectory_type == 1 or 2).
-
-    #     :return: Location data-set
-    #     """
-
-    #     if new_trajectory_type == 0:
-    #         new_obs, store_arr_new = self.random_observations(
-    #             current_trajectories, trajectories_endpoint
-    #         )
-    #         return new_obs, store_arr_new
-
-    #     if len(trajectories_endpoint) < self.n_robots:
-    #         new_obs, store_arr_new = self.remaining_lines(
-    #             current_trajectories, trajectories_endpoint
-    #         )
-    #         return new_obs, store_arr_new
-
-    #     elif new_trajectory_type == 1:
-    #         new_obs, store_arr_new = self.random_centre_lines(
-    #             current_trajectories, trajectories_endpoint
-    #         )
-    #         return new_obs, store_arr_new
-
-    #     else:  # new_trajectory_type == 2
-    #         new_obs, store_arr_new = self.random_observations(
-    #             current_trajectories, trajectories_endpoint
-    #         )
-    #         return new_obs, store_arr_new
-
     def remaining_lines(self, D_old, store_arr):
         store_arr_new = store_arr.copy()
         centre_pt = self.centre_pt

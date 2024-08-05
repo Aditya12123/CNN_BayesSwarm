@@ -40,31 +40,37 @@ class RobotEnv:
             if self.iter > 400:
                 if self.iter < 430 or self.iter > 585:
                     self.observations, self.trajectory_endpoints = self.sampler.initial_shape_reset()
+                    title = 'initial_shape_reset'
 
                 elif 430 <= self.iter < 430 + self.sampler.n_robots:
                     self.observations, self.trajectory_endpoints = self.sampler.remaining_lines(self.observations, self.trajectory_endpoints)
+                    title = 'remaining_lines'
 
                 else:
                     self.observations, self.trajectory_endpoints = self.sampler.just_one_robot(self.observations, self.trajectory_endpoints)
+                    title = 'just_one_robot'
 
             else:
 
                 if self.iter == 1 or self.iter == termination_lines + 150:
                     self.observations, self.trajectory_endpoints = self.sampler.reset(self.source, self.reset_counter - 1)
+                    title = 'reset'
                 
                 elif len(self.trajectory_endpoints) < self.sampler.n_robots:
                     self.observations, self.trajectory_endpoints = self.sampler.remaining_lines(self.observations, self.trajectory_endpoints)
+                    title = 'remaining_lines'
                 
                 elif self.iter < termination_lines:
                     self.observations, self.trajectory_endpoints = self.sampler.random_centre_lines(self.observations, self.trajectory_endpoints)
+                    title = 'random_centre_lines'
 
                 else:
                     self.observations, self.trajectory_endpoints = self.sampler.random_observations(self.observations, self.trajectory_endpoints)
+                    title = 'random_observations'
 
             if self.num_images == 1:
                 self.total_obs = []
                 self.total_obs.append(self.observations)
-                # self.num_obs_each_image = []
                 mtx = self.create_binary(self.observations)
             else:
                 self.total_obs.append(self.observations)
@@ -72,9 +78,15 @@ class RobotEnv:
             
             if self.iter >= self.termination_iter:
                 self.reset()
+            
+            plt.scatter(self.observations[:, 0], self.observations[:, 1])
+            plt.xlim(-300, 300), plt.ylim(-300, 300), plt.title(title + str(self.iter))
+            plt.savefig(f'datapoints_iter_{self.iter}')
+            plt.show()
 
             # print(self.observations.shape)
         self.num_images = 0
+
 
         return mtx
 
