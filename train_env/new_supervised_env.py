@@ -79,10 +79,11 @@ class RobotEnv:
             if self.iter >= self.termination_iter:
                 self.reset()
             
+            limits = np.max(np.abs(self.observations)) + 5
             plt.scatter(self.observations[:, 0], self.observations[:, 1])
-            plt.xlim(-300, 300), plt.ylim(-300, 300), plt.title(title + str(self.iter))
-            plt.savefig(f'datapoints_iter_{self.iter}')
-            plt.show()
+            plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title(title + str(self.iter))
+            plt.savefig(f'location_points_iter_{self.iter}.png')
+            # plt.show()
 
             # print(self.observations.shape)
         self.num_images = 0

@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 from numpy import arange, meshgrid, exp, cos, pi, sqrt, e
-
+import matplotlib.pyplot as plt
 
 
 class Source():
@@ -18,7 +18,7 @@ class Source():
         ele = 300
         self.lb = [-ele, -ele]
         self.ub = [ele, ele]
-        self.data = self.get_data(self.lb, self.ub, self.resolution, self.signal)
+        self.data = self.get_data(self.lb, self.ub, self.resolution)
     
     def get_data(self, lb = [-5, -5], ub = [5, 5], resolution=100, signal=1):
         """
@@ -26,7 +26,6 @@ class Source():
         -lb: Lower bound for the env.
         -ub: Upper bound for the env.
         -resolution: Shape of the functional space (resolution, resolution) 
-        -signal: Decides which source environment to use. 1 for the unimodal and 0 for the multimodal.
 
         output:
         -data: Array of shape (resolution**2, 3) containing locations X1, X2 and the signal measurements Y
@@ -38,8 +37,6 @@ class Source():
         data = np.hstack((X1.reshape(-1, 1), X2.reshape(-1, 1)))
         # print("Data_ :", data[2][2])
         return data
-
-
 
     def get_info(self):
         return self.data, self.lb, self.ub

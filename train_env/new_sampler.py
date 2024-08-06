@@ -19,7 +19,7 @@ class Sampler:
         Generates Initial trajectory as seen in BayesSwarm
 
         """
-        location_data = self.data[self.centre_pt, :2]
+        location_data = np.array([0, 0])#self.data[self.centre_pt, :2]
         trajectory_endpoints = []
         min_datapoints = 100
 
@@ -28,8 +28,8 @@ class Sampler:
             theta = theta * np.pi / 180
 
             for j in range(self.trajectory_length):
-                x = self.data[self.centre_pt, 0] + np.cos(theta) * j * self.dist_x
-                y = self.data[self.centre_pt, 1] + np.sin(theta) * j * self.dist_y
+                x =  np.cos(theta) * j * self.dist_x + self.centre_pt[0]
+                y =  np.sin(theta) * j * self.dist_y + self.centre_pt[1]
                 location_data = np.vstack((location_data, np.array([x, y])))
 
             trajectory_endpoints.append(location_data[len(location_data) - 1])
@@ -38,18 +38,24 @@ class Sampler:
 
             location_data = np.clip(location_data, self.lb, self.ub)
 
-        while len(location_data) < min_datapoints:
-            location_data, trajectory_endpoints = self.random_observations(
-                location_data, trajectory_endpoints
-            )
+        # while len(location_data) < min_datapoints:
+        #     location_data, trajectory_endpoints = self.random_observations(
+        #         location_data, trajectory_endpoints
+        #     )
 
+        # limits = 10#np.max(np.abs(location_data)) + 5
+        # print(location_data)
+        # plt.scatter(location_data[:, 0], location_data[:, 1])
+        # plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title('sampler')
+        # # plt.savefig(f'datapoints_iter_{self.iter}')
+        # plt.show()
         return location_data, trajectory_endpoints
 
     def reset(self, source, reset_counter):
         
         self.robot_iterations = 0
-        self.data, self.lb, self.ub = source.get_info()
-        self.centre_pt = int(self.data.shape[0] / 2) + int(self.resolution / 2)
+        self.data, self.lb, self.ub = source.get_info()      
+        self.centre_pt = [0, 0]
         self.dist_x = self.dist_y = self.observation_frequency * self.velocity
 
         n_robots_counter = np.int32(reset_counter / len(self.robots_arr))
@@ -72,14 +78,13 @@ class Sampler:
 
     def remaining_lines(self, D_old, store_arr):
         store_arr_new = store_arr.copy()
-        centre_pt = self.centre_pt
         theta = (len(store_arr) + 1) * 360 / self.n_robots
         theta = theta * np.pi / 180
         pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
 
         for j in range(self.trajectory_length):
-            x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
-            y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
+            x = self.centre_pt[0] + np.cos(theta) * j * self.dist_x
+            y = self.centre_pt[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
 
         store_arr_new.append(pts[len(pts) - 1])
@@ -94,14 +99,13 @@ class Sampler:
     def random_centre_lines(self, D_old, store_arr):
 
         store_arr_new = store_arr.copy()
-        centre_pt = self.centre_pt
         theta = np.random.randint(1, 359)
         theta = theta * np.pi / 180
         pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
 
         for j in range(self.trajectory_length):
-            x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
-            y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
+            x = self.centre_pt[0] + np.cos(theta) * j * self.dist_x
+            y = self.centre_pt[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
 
         store_arr_new.append(pts[len(pts) - 1])
@@ -150,8 +154,8 @@ class Sampler:
             theta = theta * np.pi / 180
 
             for j in range(self.trajectory_length):
-                x = self.data[centre_pt, 0] + np.cos(theta) * j * self.dist_x
-                y = self.data[centre_pt, 1] + np.sin(theta) * j * self.dist_y
+                x = self.centre_pt[0] + np.cos(theta) * j * self.dist_x
+                y = self.centre_pt[1] + np.sin(theta) * j * self.dist_y
                 pts = np.vstack((pts, np.array([x, y])))
 
             store_arr.append(pts[len(pts) - 1])
