@@ -29,7 +29,7 @@ class RobotEnv:
         Reset the sampler after certain number of iterations. Each time the sampler is reset, number_robots, 
         distance_travelled_per_trajectory changes
 
-        :return: Image of size [self.batch_size, 100, 100]
+        :return: Images of size [self.batch_size, 100, 100]
         """
 
         while self.num_images < self.batch_size:
@@ -82,8 +82,8 @@ class RobotEnv:
             limits = np.max(np.abs(self.observations)) + 5
             plt.scatter(self.observations[:, 0], self.observations[:, 1])
             plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title(title + str(self.iter))
-            path = 'F:\\ADAMS_Lab\\CCR_Train\\cnn_train_env\\assets\\images'
-            plt.savefig( path + f'\\location_points_iter_{self.iter}.png')
+            path = "/data1/users/abhatt4/cnn_bayesswarm/CNN_BayesSwarm_RAL/assets/images" #'F:\\ADAMS_Lab\\CCR_Train\\cnn_train_env\\assets\\images'
+            plt.savefig( path + f'/location_points_iter_{self.iter}.png')
             plt.show()
 
             # print(self.observations.shape)
