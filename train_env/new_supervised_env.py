@@ -82,8 +82,9 @@ class RobotEnv:
             limits = np.max(np.abs(self.observations)) + 5
             plt.scatter(self.observations[:, 0], self.observations[:, 1])
             plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title(title + str(self.iter))
-            plt.savefig(f'location_points_iter_{self.iter}.png')
-            # plt.show()
+            path = 'F:\\ADAMS_Lab\\CCR_Train\\cnn_train_env\\assets\\images'
+            plt.savefig( path + f'\\location_points_iter_{self.iter}.png')
+            plt.show()
 
             # print(self.observations.shape)
         self.num_images = 0
@@ -107,7 +108,7 @@ class RobotEnv:
         
         """
         obs, N = observations, self.resolution
-        limit = np.ceil(np.max(obs)) + 5
+        limit = np.ceil(np.max(np.abs(obs))) + 5
         lb = [-limit, -limit]
         ub = [limit, limit]
         if np.size(obs) == 0:
@@ -170,15 +171,15 @@ class RobotEnv:
         sinkhorn_loss = SamplesLoss(loss="sinkhorn", p=2, blur=2)
         dwn_sample_loss = 0
 
-        for k in range(len(self.total_obs)):
-            obs = torch.tensor(self.total_obs[k], dtype=torch.float32).to(self.device)
-            dwn = down_sampled[k]
-            print(obs.shape, dwn.shape)
-            dwn_totalSubset_xy = self.nearest_points(obs, model_output=dwn)
-            dwn_sample_loss += sinkhorn_loss(obs[:, :2], dwn[:, :2])
-            dwn_sample_loss += self.mse_loss(dwn[:, :2], dwn_totalSubset_xy)
+        # for k in range(len(self.total_obs)):
+        #     obs = torch.tensor(self.total_obs[k], dtype=torch.float32).to(self.device)
+        #     dwn = down_sampled[k]
+        #     print(obs.shape, dwn.shape)
+        #     dwn_totalSubset_xy = self.nearest_points(obs, model_output=dwn)
+        #     dwn_sample_loss += sinkhorn_loss(obs[:, :2], dwn[:, :2])
+        #     dwn_sample_loss += self.mse_loss(dwn[:, :2], dwn_totalSubset_xy)
         
-        dwn_sample_loss = dwn_sample_loss / self.batch_size
+        # dwn_sample_loss = dwn_sample_loss / self.batch_size
 
         loss = dwn_sample_loss
         return loss

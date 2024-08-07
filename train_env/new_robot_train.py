@@ -10,7 +10,7 @@ import torch.optim as optim
 
 batch_size = 5
 env = RobotEnv(batch_size=batch_size)
-epochs = 601
+epochs = 1
 env.reset()
 device = torch.device('cpu')
 model = CNN().to(device)
@@ -39,8 +39,8 @@ for epoch in range(epochs):
         image = image.to(device)
         down_sampled = model(image)
         loss = env.loss(down_sampled)
-        tr_loss.append(loss.item())
-        train_loss += loss.item()
+        # tr_loss.append(loss.item())
+        # train_loss += loss.item()
 
         optimizer.zero_grad()
 
@@ -48,40 +48,40 @@ for epoch in range(epochs):
 
         # optimizer.step()
 
-    loss_per_epoch.append(train_loss / batches)
-    if (train_loss/batches) < current_loss:
-        model_path = f'BayesSwarm/trvl_bestmodel.pth'
-        torch.save(model, model_path)
-        current_loss = train_loss/batches
-        with open('best_loss.csv', mode='a', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([train_loss/batches, epoch])
+    # loss_per_epoch.append(train_loss / batches)
+    # if (train_loss/batches) < current_loss:
+    #     model_path = f'BayesSwarm/trvl_bestmodel.pth'
+    #     torch.save(model, model_path)
+    #     current_loss = train_loss/batches
+    #     with open('best_loss.csv', mode='a', newline='') as file:
+    #         writer = csv.writer(file)
+    #         writer.writerow([train_loss/batches, epoch])
             
-    train_loss = 0
+    # train_loss = 0
 
-    with open('tr_loss.csv', 'a', newline='') as file:
-        writer = csv.writer(file)
-        for ls in tr_loss:
-            writer.writerow([ls])
-        writer.writerow([f"Epoch: {epoch}"])
+    # with open('tr_loss.csv', 'a', newline='') as file:
+    #     writer = csv.writer(file)
+    #     for ls in tr_loss:
+    #         writer.writerow([ls])
+    #     writer.writerow([f"Epoch: {epoch}"])
 
-    with open('loss_per_epoch.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        for ls in loss_per_epoch:
-            writer.writerow([ls])
+    # with open('loss_per_epoch.csv', 'w', newline='') as file:
+    #     writer = csv.writer(file)
+    #     for ls in loss_per_epoch:
+    #         writer.writerow([ls])
     
-    with open('loss_per.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        for ls in loss_per_epoch:
-            writer.writerow([f"epoch: {epoch}", ls])
+    # with open('loss_per.csv', 'w', newline='') as file:
+    #     writer = csv.writer(file)
+    #     for ls in loss_per_epoch:
+    #         writer.writerow([f"epoch: {epoch}", ls])
 
-    if epoch % 10 == 0:
-        for param in model.parameters():
-            if param.grad is not None:
-                if torch.isnan(param.grad).any() or torch.isinf(param.grad).any():
-                    print("NaN or Inf gradients detected!")
-                    break
+    # if epoch % 10 == 0:
+    #     for param in model.parameters():
+    #         if param.grad is not None:
+    #             if torch.isnan(param.grad).any() or torch.isinf(param.grad).any():
+    #                 print("NaN or Inf gradients detected!")
+    #                 break
 
-    end_time = time.time()
+    # end_time = time.time()
 
     print("Time for an epoch: ", end_time - start_time)
