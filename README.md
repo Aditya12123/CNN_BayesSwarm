@@ -31,8 +31,8 @@ $k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number 
 $$P_{\text{per-list}} = \frac{M}{k}$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list
 
 For $i = 1$ to $N$
- &nbsp;&nbsp;&nbsp;    $Q$ $\gets$ $P{\text{per-list}}$ Equidistant points from $S[i]$
-&nbsp;&nbsp;&nbsp;    $DmM$.append($Q$)
+ &nbsp;&nbsp;&nbsp;    $$Q \gets P_{\text{per-list}}$$ Equidistant points from $$S[i]$$
+&nbsp;&nbsp;&nbsp;    $$D_M$$.append($$Q$$)
 \EndFor
 
 return  $Dm$
