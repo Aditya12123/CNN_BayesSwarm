@@ -51,4 +51,4 @@ In this section, we provide an analysis of the performance of our method against
 All the experiments were performed on the environment shown Figure 5(a) with highly Multi-modal signal.
 
 **Experiments with robot-speed = 1m/s and sensor-sampling-rate=1Hz**
-![alt text](RAL_results/results_plots/png_plots/env1_results/env1_20_robots_speed1.png = 100x100) ![alt text](RAL_results/results_plots/png_plots/env1_results/env1_35_robots_speed1.png) ![alt text](RAL_results/results_plots/png_plots/env1_results/env1_50_robots_speed1.png)
+![alt text](RAL_results/results_plots/png_plots/env1_results/env1_20_robots_speed1.png = 25x25) ![alt text](RAL_results/results_plots/png_plots/env1_results/env1_35_robots_speed1.png) ![alt text](RAL_results/results_plots/png_plots/env1_results/env1_50_robots_speed1.png)
