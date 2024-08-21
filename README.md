@@ -45,3 +45,6 @@ Clustering has been used in literature to down-sample data in Machine Learning [
 
 ![Alt text][env1.pdf](https://github.com/user-attachments/files/16696521/env1.pdf)
 
+
+![dec_time_vs_obs_BS_dec](https://github.com/user-attachments/assets/50083d22-034c-470c-9c4a-55a32ce64818)
+
