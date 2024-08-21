@@ -5,7 +5,8 @@ In this section, all the baselines along with their proper mathematical formulat
  2. Sample Rate Compression (SRC)
  3. K-Means Clustering
 
-$$1$$
+$$1$$ <br/>
+
 We assume the number of input datapoints $$|D_N| = N$$ and required number of down-sampled datapoints $$D_M$$ = $$M$$
 
 \subsection{Random Sample Consensus (RANSAC)}
