@@ -43,5 +43,5 @@ Sample Rate Compression[] is used a lot in signal processing domain. After sampl
 ## K-Means Clustering
 Clustering has been used in literature to down-sample data in Machine Learning [], as well as for Gaussian Processes(GP)[] As per Liu et al [], the data is clustered in $M$ clusters and the $M$ cluster heads as the down-sampled dataset. Here we used K-Means Clustering to cluster the data.
 
-[env1.pdf](https://github.com/user-attachments/files/16696521/env1.pdf)
+![Alt text][env1.pdf](https://github.com/user-attachments/files/16696521/env1.pdf)
 
