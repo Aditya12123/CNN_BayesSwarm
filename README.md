@@ -18,24 +18,24 @@ Threshold: $$H$$
 $$D_M \gets$$ Down-sampled Dataset
 
 While  $$|D |> 0 :$$ <br/>
-&nbsp;&nbsp;    $$S_i =  RANSAC(D) $$  
-&nbsp;&nbsp;    $$S.append(S_i)$$
-&nbsp;&nbsp;    Remove $$S_i$$ from $$D$$
-&nbsp;&nbsp;    If $$length(D) < H$$ 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break
-&nbsp;&nbsp;    EndIf    
-EndWhile
+&nbsp;&nbsp;    $$S_i =  RANSAC(D) $$  <br/>
+&nbsp;&nbsp;    $$S.append(S_i)$$ <br/>
+&nbsp;&nbsp;    Remove $$S_i$$ from $$D$$ <br/>
+&nbsp;&nbsp;    If $$length(D) < H$$  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break <br/>
+&nbsp;&nbsp;    EndIf    <br/>
+EndWhile <br/>
 
-$k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S
+$k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
 
-$$P_{\text{per-list}} = \frac{M}{k}$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list
+$$P_{\text{per-list}} = \frac{M}{k}$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list <br/>
 
-For $i = 1$ to $N$
- &nbsp;&nbsp;&nbsp;    $$Q \gets P_{\text{per-list}}$$ Equidistant points from $$S[i]$$
-&nbsp;&nbsp;&nbsp;    $$D_M$$.append($$Q$$)
-\EndFor
+For $i = 1$ to $N$ <br/>
+ &nbsp;&nbsp;&nbsp;    $$Q \gets P_{\text{per-list}}$$ Equidistant points from $$S[i]$$ <br/>
+&nbsp;&nbsp;&nbsp;    $$D_M$$.append($$Q$$) <br/>
+\EndFor <br/>
 
-return  $Dm$
+return  $Dm$ <br/>
 
 ## Sample Rate Compression (SRC)
 Sample Rate Compression[] is used a lot in signal processing domain. After sampling the first point, every $k^{th}$ point is sampled where $k = \frac{N}{M}$. SRC was used in the Bayes-Swarm algorithm proposed by Ghassemi et al [], []. 
