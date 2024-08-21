@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import pandas as pd
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import seaborn as sns
 os.environ['MPLCONFIGDIR'] = '/data1/users/abhatt4'
 import matplotlib.pyplot as plt
@@ -9,7 +11,7 @@ plt.rcParams["font.family"] = "Arial"
 
 # frequency 1
 # path = r'F:\\ADAMS_Lab\\RAL_results\\Env_1\\freq_5' # Windows_path
-path = "/data1/users/abhatt4/cnn_bayesswarm/CNN_BayesSwarm_RAL/RAL_results/Env_1/freq_1"
+path = "/data1/users/abhatt4/cnn_bayesswarm/CNN_BayesSwarm_RAL/RAL_results/Env_3/freq_5"
 
 # Windows Paths
 # folder_paths = [
@@ -30,14 +32,14 @@ folder_paths = [
 ]
 
 
-mission = '850.csv'
+mission = '835.csv'
 # Windows Paths
 # env_path = r"env1_results\\freq_5\\"
 # file_name = r"env1_50_robots_speed1.pdf"
 
 #Lab machine 
-env_path = "env1_results/"#freq_5/"
-file_name = "env1_50_robots_speed1.png"
+env_path = "env3_results/freq_5/"#without_ransac/"#freq_5/"
+file_name = "env3_35_robots_speed1.png"
 
 
 fig, axs = plt.subplots(figsize=(6, 5.5))
@@ -65,12 +67,13 @@ data.columns = ['Value', 'Category']
 my_pal = {"ransac": "#FF80FF", "cnn": "orange", "src": "#b9e9e9", "kmeans": "#ffe1bd", 'kmeans_all': '#ffe1bd',
           "complete": "#b5651d", "max_signal": "purple"}
 sns.boxplot(x='Category', y='Value', data=data, ax=ax, linewidth=1.5, linecolor='black',  palette=my_pal)  # S
+ax.set_xticks(ax.get_xticks())
 ax.set_xticklabels(["CNN", "SRC", "K-Means", "RANSAC"], fontsize=22, rotation=45)#, fontweight='bold')
 ax.set_xlabel("")
-ax.set_yticks(np.arange(28, 44, 5)) # For Env-1 speed 1
 # ax.set_yticks(np.arange(140, 250, 40)) # For Env-1 speed 0.2
-# ax.set_yticks(np.arange(40, 70, 10)) # For Env-2
-# ax.set_yticks(np.arange(50, 400, 100)) # For Env-3
+# ax.set_yticks(np.arange(28, 44, 5)) # For Env-1 speed 1
+# ax.set_yticks(np.arange(40, 65, 10)) # For Env-2
+ax.set_yticks(np.arange(50, 250, 50)) # For Env-3
 ax.set_ylabel("")
 ax.set_ylabel("Mission Time [s]", fontsize=24)#, fontweight='bold')
 
