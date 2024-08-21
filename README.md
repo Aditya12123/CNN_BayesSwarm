@@ -28,7 +28,7 @@ EndWhile
 
 $k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S
 
-$P{\text{per-list}} = \frac{M}{k}$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list
+$$P_{\text{per-list}} = \frac{M}{k}$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list
 
 For $i = 1$ to $N$
  &nbsp;&nbsp;&nbsp;    $Q$ $\gets$ $P{\text{per-list}}$ Equidistant points from $S[i]$
