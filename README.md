@@ -15,7 +15,7 @@ In Bayes-Swarm, the robot movements are straight lines. Hence, we use RANSAC to 
 Modified RANSAC Algorithm
 Given: Input data $D$, Required points count: $M$
 Threshold: $H$
-$D_M \gets$ Down-sampled Dataset
+$Dm \gets$ Down-sampled Dataset
 
 While  $|D |> 0 :$
 &nbsp;&nbsp;    $S_i =  RANSAC(D) $  
