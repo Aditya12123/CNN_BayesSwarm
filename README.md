@@ -5,7 +5,7 @@ In this section, all the baselines along with their proper mathematical formulat
  2. Sample Rate Compression (SRC)
  3. K-Means Clustering
 
-We assume the number of input datapoints $|D_N| = N$ and required number of down-sampled datapoints = $M$
+We assume the number of input datapoints $$|D_N| = N$$ and required number of down-sampled datapoints $$D_M$$ = $$M$$
 
 \subsection{Random Sample Consensus (RANSAC)}
 RANSAC [] is a model-fitting method commonly used in a lot of Computer Vision applications. In this case, the data-points are $(X, Y)$ location co-ordinates. Initially, two points are randomly selected and "inliers" are obtained. "Inliers" are the location co-ordinates which lie along the line connecting the two points. Thus the output of RANSAC is all the lines in the data-set. 
