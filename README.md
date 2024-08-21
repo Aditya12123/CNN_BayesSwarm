@@ -27,7 +27,7 @@ While  $$|D |> 0 :$$ <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    EndIf    <br/>
 EndWhile <br/>
 
-$k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
+$$k = length(S)$$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
 
 $$P_{\text{per-list}} = \frac{M}{k}$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list <br/>
 
