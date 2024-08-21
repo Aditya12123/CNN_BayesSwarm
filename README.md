@@ -18,12 +18,12 @@ Threshold: $$H$$
 $$D_M \gets$$ Down-sampled Dataset
 
 While  $$|D |> 0 :$$ <br/>
-&nbsp;&nbsp;    $$S_i =  RANSAC(D) $$  <br/>
-&nbsp;&nbsp;    $$S.append(S_i)$$ <br/>
-&nbsp;&nbsp;    Remove $$S_i$$ from $$D$$ <br/>
-&nbsp;&nbsp;    If $$length(D) < H$$  <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break <br/>
-&nbsp;&nbsp;    EndIf    <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    $$S_i =  RANSAC(D) $$  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    $$S.append(S_i)$$ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Remove $$S_i$$ from $$D$$ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    If $$length(D) < H$$  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    EndIf    <br/>
 EndWhile <br/>
 
 $k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
