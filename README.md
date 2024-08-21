@@ -28,14 +28,14 @@ EndWhile
 
 $k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S
 
-$P{\text{per\_list}} = \frac{M}{k}$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list
+$P{\text{per-list}} = \frac{M}{k}$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list
 
 For $i = 1$ to $N$
  &nbsp;&nbsp;&nbsp;    $Q$ $\gets$ $P{\text{per-list}}$ Equidistant points from $S[i]$
-&nbsp;&nbsp;&nbsp;    $D_M$.append($Q$)
+&nbsp;&nbsp;&nbsp;    $DmM$.append($Q$)
 \EndFor
 
-return  $D_M$
+return  $Dm$
 
 ## Sample Rate Compression (SRC)
 Sample Rate Compression[] is used a lot in signal processing domain. After sampling the first point, every $k^{th}$ point is sampled where $k = \frac{N}{M}$. SRC was used in the Bayes-Swarm algorithm proposed by Ghassemi et al [], []. 
