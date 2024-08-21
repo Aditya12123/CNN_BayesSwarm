@@ -2,3 +2,6 @@
 env/
 .venv/
 __pycache__/
+RAL_results/venv/
+RAL_results/trajectory_evolution/
+RAL_results/signal_contour_plots/
