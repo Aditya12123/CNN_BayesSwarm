@@ -18,6 +18,7 @@ Threshold: $$H$$
 $$D_M \gets$$ Down-sampled Dataset
 
 While  $$|D |> 0 :$$
+
 &nbsp;&nbsp;    $$S_i =  RANSAC(D) $$  
 &nbsp;&nbsp;    $$S.append(S_i)$$
 &nbsp;&nbsp;    Remove $$S_i$$ from $$D$$
