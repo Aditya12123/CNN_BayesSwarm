@@ -5,9 +5,10 @@ In this section, all the baselines along with their proper mathematical formulat
  2. Sample Rate Compression (SRC)
  3. K-Means Clustering
 
-We assume the number of input datapoints $|D_N| = N$ and required number of down-sampled datapoints = $M$
 
-\subsection{Random Sample Consensus (RANSAC)}
+We assume the number of input datapoints $$|D_N| = N$$ and required number of down-sampled datapoints $$D_M$$ = $$M$$
+
+## Random Sample Consensus (RANSAC)
 RANSAC [] is a model-fitting method commonly used in a lot of Computer Vision applications. In this case, the data-points are $(X, Y)$ location co-ordinates. Initially, two points are randomly selected and "inliers" are obtained. "Inliers" are the location co-ordinates which lie along the line connecting the two points. Thus the output of RANSAC is all the lines in the data-set. 
 
 In Bayes-Swarm, the robot movements are straight lines. Hence, we use RANSAC to extract all the lines (trajectories)(for instance $k$). To sample $M$ co-ordinates, we sample $M/k$ points from each line/trajectory. This is illustrated in the pseudocode given in Algorithm \ref{alg:modifiedransac} 
@@ -26,7 +27,7 @@ While  $$|D |> 0 :$$ <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    EndIf    <br/>
 EndWhile <br/>
 
-$k = length(S)$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
+$$k = length(S)$$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
 
 $$P_{\text{per-list}} = \frac{M}{k}$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list <br/>
 
@@ -46,9 +47,11 @@ Clustering has been used in literature to down-sample data in Machine Learning [
 
 
 # Numerical Experiments
-In this section, we provide an analysis of the performance of our method against baselines for the parameters affecting the number and nature of observations. The parameters that we have considered are number of robots, robot speed and sensor sampling rate. In the paper we have shown experiments with a swarm of $35$ robots, with the speed of $1$m/s and sensor sampling rate of $1$Hz. Here, we will show the results for a swarm of $20$ robots and $50$ robots, with speeds of $0.2$ m/s and $1$ m/s and sensor sampling rate of $5$ Hz along with $1$ Hz. 
+In this section, we provide an analysis of the performance of our method against baselines for the parameters affecting the number and nature of observations. The parameters that we have considered are number of robots, robot speed and sensor sampling rate. In the paper we have shown experiments with a swarm of  35  robots, with the speed of 1 m/s and sensor sampling rate of 1 Hz. Here, we will show the results for a swarm of 20 robots and 50 robots, with speeds of 0.2 m/s and 1 m/s and sensor sampling rate of 5 Hz along with 1 Hz. 
 
-All the experiments were performed on the environment shown Figure 5(a) with highly Multi-modal signal.
+All the experiments were performed on the environment shown Figure 5(a) with highly Multi-modal signal. <br/>
 
-**Experiments with robot-speed = 1m/s and sensor-sampling-rate=1Hz**
-![alt text](RAL_results/results_plots/png_plots/env1_results/env1_20_robots_speed1.png = 25x25) ![alt text](RAL_results/results_plots/png_plots/env1_results/env1_35_robots_speed1.png) ![alt text](RAL_results/results_plots/png_plots/env1_results/env1_50_robots_speed1.png)
+**Experiments with robot-speed = 1m/s and sensor-sampling-rate=1Hz** <br/>
+<img src="RAL_results/results_plots/png_plots/env1_results/env1_20_robots_speed1.png" width="200" height="200">
+<img src="RAL_results/results_plots/png_plots/env1_results/env1_35_robots_speed1.png" width="200" height="200">
+<img src="RAL_results/results_plots/png_plots/env1_results/env1_50_robots_speed1.png" width="200" height="200">
