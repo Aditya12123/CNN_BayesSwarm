@@ -46,7 +46,7 @@ Clustering has been used in literature to down-sample data in Machine Learning [
 
 
 # Numerical Experiments
-In this section, we provide an analysis of the performance of our method against baselines for the parameters affecting the number and nature of observations. The parameters that we have considered are number of robots, robot speed and sensor sampling rate. In the paper we have shown experiments with a swarm of $$35$$ robots, with the speed of $$1$$m/s and sensor sampling rate of $$1$$Hz. Here, we will show the results for a swarm of $$20$$ robots and $$50$$ robots, with speeds of $$0.2$$ m/s and $$1$$ m/s and sensor sampling rate of $$5$$ Hz along with $$1$$ Hz. 
+In this section, we provide an analysis of the performance of our method against baselines for the parameters affecting the number and nature of observations. The parameters that we have considered are number of robots, robot speed and sensor sampling rate. In the paper we have shown experiments with a swarm of $$ 35 $$ robots, with the speed of $$1$$m/s and sensor sampling rate of $$1$$Hz. Here, we will show the results for a swarm of $$20$$ robots and $$50$$ robots, with speeds of $$0.2$$ m/s and $$1$$ m/s and sensor sampling rate of $$5$$ Hz along with $$1$$ Hz. 
 
 All the experiments were performed on the environment shown Figure 5(a) with highly Multi-modal signal. <br/>
 
