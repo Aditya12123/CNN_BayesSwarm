@@ -69,6 +69,11 @@ All the experiments were performed on the environment shown Figure 5(a) with hig
 
 
 ### Environment 2
+**Experiments with robot-speed = 1m/s and sensor-sampling-rate=1Hz** <br/>
+<img src="RAL_results/results_plots/png_plots/env2_results/env2_20_robots_speed1.png" width="200" height="200">
+<img src="RAL_results/results_plots/png_plots/env2_results/env2_35_robots_speed1.png" width="200" height="200">
+<img src="RAL_results/results_plots/png_plots/env2_results/env2_50_robots_speed1.png" width="200" height="200">
+
 **Experiments with robot-speed = 1m/s and sensor-sampling-rate=5Hz** <br/>
 <img src="RAL_results/results_plots/png_plots/env2_results/freq_5/env2_20_robots_speed1.png" width="200" height="200">
 <img src="RAL_results/results_plots/png_plots/env2_results/freq_5/env2_35_robots_speed1.png" width="200" height="200">
