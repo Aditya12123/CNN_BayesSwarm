@@ -13,15 +13,15 @@ RANSAC [] is a model-fitting method commonly used in a lot of Computer Vision ap
 In Bayes-Swarm, the robot movements are straight lines. Hence, we use RANSAC to extract all the lines (trajectories)(for instance $k$). To sample $M$ co-ordinates, we sample $M/k$ points from each line/trajectory. This is illustrated in the pseudocode given in Algorithm \ref{alg:modifiedransac} 
 
 Modified RANSAC Algorithm
-Given: Input data $D$, Required points count: $M$
-Threshold: $H$
-$Dm \gets$ Down-sampled Dataset
+Given: Input data $$D$$, Required points count: $$M$$
+Threshold: $$H$$
+$$D_M \gets$$ Down-sampled Dataset
 
-While  $|D |> 0 :$
-&nbsp;&nbsp;    $S_i =  RANSAC(D) $  
-&nbsp;&nbsp;    $S.append(S_i)$
-&nbsp;&nbsp;    Remove $S_i$ from $D$
-&nbsp;&nbsp;    If $length(D) < H$ 
+While  $$|D |> 0 :$$
+&nbsp;&nbsp;    $$S_i =  RANSAC(D) $$  
+&nbsp;&nbsp;    $$S.append(S_i)$$
+&nbsp;&nbsp;    Remove $$S_i$$ from $$D$$
+&nbsp;&nbsp;    If $$length(D) < H$$ 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break
 &nbsp;&nbsp;    EndIf    
 EndWhile
