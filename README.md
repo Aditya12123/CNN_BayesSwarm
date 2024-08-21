@@ -5,11 +5,10 @@ In this section, all the baselines along with their proper mathematical formulat
  2. Sample Rate Compression (SRC)
  3. K-Means Clustering
 
-$$1$$ <br/>
 
 We assume the number of input datapoints $$|D_N| = N$$ and required number of down-sampled datapoints $$D_M$$ = $$M$$
 
-\subsection{Random Sample Consensus (RANSAC)}
+## Random Sample Consensus (RANSAC)
 RANSAC [] is a model-fitting method commonly used in a lot of Computer Vision applications. In this case, the data-points are $(X, Y)$ location co-ordinates. Initially, two points are randomly selected and "inliers" are obtained. "Inliers" are the location co-ordinates which lie along the line connecting the two points. Thus the output of RANSAC is all the lines in the data-set. 
 
 In Bayes-Swarm, the robot movements are straight lines. Hence, we use RANSAC to extract all the lines (trajectories)(for instance $k$). To sample $M$ co-ordinates, we sample $M/k$ points from each line/trajectory. This is illustrated in the pseudocode given in Algorithm \ref{alg:modifiedransac} 
