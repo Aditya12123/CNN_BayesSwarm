@@ -1,3 +1,8 @@
+# Learning-based Real-time Down-sampling for Scalable Decentralized Decision-Making in Swarm Search
+
+## Preamble
+In the paper, we have proposed learning based real-time down-sampling method and validated its performance on the Bayes-Swarm algorithm for several environments. Here, first we provide detailed mathematical formulation of the baselines provided in the paper. Following that, we have provided analysis of the effect of the parameters affecting down-sampling on the algorithm.
+
 ## Baselines
 In this section, all the baselines along with their proper mathematical formulation are given. The baseline algorithms used are:
 
