@@ -12,7 +12,7 @@ batch_size = 5
 env = RobotEnv(batch_size=batch_size)
 epochs = 1
 env.reset()
-device = torch.device('cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = CNN().to(device)
 total_images = 9*600
 batches = int(total_images / batch_size)
@@ -84,4 +84,4 @@ for epoch in range(epochs):
 
     # end_time = time.time()
 
-    print("Time for an epoch: ", end_time - start_time)
+    # print("Time for an epoch: ", end_time - start_time)
