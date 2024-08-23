@@ -1,0 +1,16 @@
+SLURM_JOBID=14207795
+SLURM_JOB_NODELIST=cpn-m25-02-01
+SLURM_NNODES=1
+SLURMTMPDIR=/scratch/14207795
+SLURM_SUBMIT_DIR=/projects/academic/soumacho/Aditya/bs_modifications/Original_Bayes_Swarm
+warning in stationary: failed to import cython module: falling back to numpy
+warning in choleskies: failed to import cython module: falling back to numpy
+MISSION_0_STARTS
+Robot  12  found the source!
+
+Simulation ended -  output/results_2023Nov23_684
+[48.177]
+[117.44901096820831]
+MISSION_ENDS
+***********************************************************************
+All Done!

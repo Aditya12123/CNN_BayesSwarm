@@ -1,0 +1,16 @@
+SLURM_JOBID=14207827
+SLURM_JOB_NODELIST=cpn-m25-02-02
+SLURM_NNODES=1
+SLURMTMPDIR=/scratch/14207827
+SLURM_SUBMIT_DIR=/projects/academic/soumacho/Aditya/bs_modifications/CNN_but_subset/COMPARE_DECISION_TIME
+warning in stationary: failed to import cython module: falling back to numpy
+warning in choleskies: failed to import cython module: falling back to numpy
+MISSION_0_STARTS
+Robot  2  found the source!
+
+Simulation ended -  output\results_2023Nov23_13
+[29.236]
+[78.3888292312622]
+MISSION_ENDS
+***********************************************************************
+All Done!

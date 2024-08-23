@@ -1,0 +1,5 @@
+ /projects/academic/soumacho/Aditya/anaconda_envs/bayes_swarm_new/lib/python3.10/site-packages/sklearn/gaussian_process/_gpr.py:629: ConvergenceWarning:lbfgs failed to converge (status=2):
+ABNORMAL_TERMINATION_IN_LNSRCH.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html

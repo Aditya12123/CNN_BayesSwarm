@@ -1,0 +1,37 @@
+
++=======================================================
++ robot-2 found the source at time 28.319 out of 1000.000. It is located 0.162 meters of the source.                   Ideal time to find this source is 28.320
++ Mission Performance Metrics -- Completion Time: 0.000; Mapping Error (MAE) 0.097.
++-------------------------------------------------------
++ Robot-robot-0 takes 3 decisions with a median computing time 0.419 (min: 0.000, max: 0.515); Mapping Error (MAE): 0.153.
++ Robot-robot-1 takes 3 decisions with a median computing time 0.591 (min: 0.000, max: 0.605); Mapping Error (MAE): 0.152.
++ Robot-robot-2 takes 4 decisions with a median computing time 0.408 (min: 0.000, max: 0.511); Mapping Error (MAE): 0.097.
++ Robot-robot-3 takes 3 decisions with a median computing time 0.496 (min: 0.000, max: 0.497); Mapping Error (MAE): 0.106.
++ Robot-robot-4 takes 3 decisions with a median computing time 0.539 (min: 0.000, max: 0.565); Mapping Error (MAE): 0.107.
++ Robot-robot-5 takes 3 decisions with a median computing time 0.564 (min: 0.000, max: 0.606); Mapping Error (MAE): 0.089.
++ Robot-robot-6 takes 3 decisions with a median computing time 0.535 (min: 0.000, max: 0.605); Mapping Error (MAE): 0.094.
++ Robot-robot-7 takes 3 decisions with a median computing time 0.660 (min: 0.000, max: 0.666); Mapping Error (MAE): 0.093.
++ Robot-robot-8 takes 3 decisions with a median computing time 0.466 (min: 0.000, max: 0.707); Mapping Error (MAE): 0.144.
++ Robot-robot-9 takes 3 decisions with a median computing time 0.595 (min: 0.000, max: 0.674); Mapping Error (MAE): 0.085.
++ Robot-robot-10 takes 3 decisions with a median computing time 0.659 (min: 0.000, max: 4.887); Mapping Error (MAE): 0.086.
++ Robot-robot-11 takes 3 decisions with a median computing time 0.543 (min: 0.000, max: 0.655); Mapping Error (MAE): 0.087.
++ Robot-robot-12 takes 3 decisions with a median computing time 0.573 (min: 0.000, max: 0.659); Mapping Error (MAE): 0.096.
++ Robot-robot-13 takes 3 decisions with a median computing time 0.565 (min: 0.000, max: 0.735); Mapping Error (MAE): 0.094.
++ Robot-robot-14 takes 3 decisions with a median computing time 0.505 (min: 0.000, max: 0.619); Mapping Error (MAE): 0.097.
++ Robot-robot-15 takes 3 decisions with a median computing time 0.531 (min: 0.000, max: 0.543); Mapping Error (MAE): 0.097.
++ Robot-robot-16 takes 3 decisions with a median computing time 0.491 (min: 0.000, max: 0.551); Mapping Error (MAE): 0.106.
++ Robot-robot-17 takes 3 decisions with a median computing time 0.698 (min: 0.000, max: 0.704); Mapping Error (MAE): 0.104.
++ Robot-robot-18 takes 3 decisions with a median computing time 0.529 (min: 0.000, max: 0.655); Mapping Error (MAE): 0.099.
++ Robot-robot-19 takes 4 decisions with a median computing time 0.567 (min: 0.000, max: 0.697); Mapping Error (MAE): 0.138.
++ Robot-robot-20 takes 4 decisions with a median computing time 0.439 (min: 0.000, max: 0.497); Mapping Error (MAE): 0.119.
++ Robot-robot-21 takes 3 decisions with a median computing time 0.550 (min: 0.000, max: 0.622); Mapping Error (MAE): 0.096.
++ Robot-robot-22 takes 3 decisions with a median computing time 0.551 (min: 0.000, max: 0.565); Mapping Error (MAE): 0.093.
++ Robot-robot-23 takes 3 decisions with a median computing time 0.517 (min: 0.000, max: 0.754); Mapping Error (MAE): 0.151.
++ Robot-robot-24 takes 3 decisions with a median computing time 0.628 (min: 0.000, max: 0.690); Mapping Error (MAE): 0.092.
++ Robot-robot-25 takes 3 decisions with a median computing time 0.564 (min: 0.000, max: 0.761); Mapping Error (MAE): 0.091.
++ Robot-robot-26 takes 4 decisions with a median computing time 0.540 (min: 0.000, max: 0.672); Mapping Error (MAE): 0.125.
++ Robot-robot-27 takes 4 decisions with a median computing time 0.438 (min: 0.000, max: 0.545); Mapping Error (MAE): 0.106.
++ Robot-robot-28 takes 3 decisions with a median computing time 0.517 (min: 0.000, max: 0.528); Mapping Error (MAE): 0.096.
++ Robot-robot-29 takes 3 decisions with a median computing time 0.514 (min: 0.000, max: 0.622); Mapping Error (MAE): 0.091.
++=======================================================
+

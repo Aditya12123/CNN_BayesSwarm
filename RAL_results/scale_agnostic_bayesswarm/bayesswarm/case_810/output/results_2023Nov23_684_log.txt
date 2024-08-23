@@ -1,0 +1,27 @@
+
++=======================================================
++ robot-12 found the source at time 48.177 out of 1000.000. It is located 0.027 meters of the source.                   Ideal time to find this source is 28.320
++ Mission Performance Metrics -- Completion Time: 0.701; Mapping Error (MAE) 0.038.
++-------------------------------------------------------
++ Robot-robot-0 takes 5 decisions with a median computing time 4.292 (min: 0.001, max: 17.387); Mapping Error (MAE): 0.038.
++ Robot-robot-1 takes 5 decisions with a median computing time 4.534 (min: 0.001, max: 18.996); Mapping Error (MAE): 0.038.
++ Robot-robot-2 takes 5 decisions with a median computing time 4.422 (min: 0.001, max: 19.569); Mapping Error (MAE): 0.038.
++ Robot-robot-3 takes 5 decisions with a median computing time 5.867 (min: 0.001, max: 20.742); Mapping Error (MAE): 0.038.
++ Robot-robot-4 takes 5 decisions with a median computing time 4.303 (min: 0.001, max: 16.501); Mapping Error (MAE): 0.038.
++ Robot-robot-5 takes 5 decisions with a median computing time 5.069 (min: 0.001, max: 20.382); Mapping Error (MAE): 0.038.
++ Robot-robot-6 takes 5 decisions with a median computing time 5.736 (min: 0.001, max: 21.701); Mapping Error (MAE): 0.038.
++ Robot-robot-7 takes 5 decisions with a median computing time 6.605 (min: 0.001, max: 20.802); Mapping Error (MAE): 0.038.
++ Robot-robot-8 takes 5 decisions with a median computing time 5.988 (min: 0.001, max: 23.177); Mapping Error (MAE): 0.038.
++ Robot-robot-9 takes 5 decisions with a median computing time 6.503 (min: 0.001, max: 23.304); Mapping Error (MAE): 0.038.
++ Robot-robot-10 takes 5 decisions with a median computing time 5.880 (min: 0.001, max: 22.791); Mapping Error (MAE): 0.038.
++ Robot-robot-11 takes 5 decisions with a median computing time 6.454 (min: 0.001, max: 25.716); Mapping Error (MAE): 0.038.
++ Robot-robot-12 takes 5 decisions with a median computing time 6.292 (min: 0.001, max: 24.116); Mapping Error (MAE): 0.038.
++ Robot-robot-13 takes 5 decisions with a median computing time 4.482 (min: 0.001, max: 16.318); Mapping Error (MAE): 0.038.
++ Robot-robot-14 takes 6 decisions with a median computing time 6.066 (min: 0.001, max: 29.332); Mapping Error (MAE): 0.037.
++ Robot-robot-15 takes 6 decisions with a median computing time 5.319 (min: 0.001, max: 29.054); Mapping Error (MAE): 0.037.
++ Robot-robot-16 takes 5 decisions with a median computing time 6.698 (min: 0.001, max: 25.315); Mapping Error (MAE): 0.038.
++ Robot-robot-17 takes 5 decisions with a median computing time 7.023 (min: 0.001, max: 26.369); Mapping Error (MAE): 0.038.
++ Robot-robot-18 takes 5 decisions with a median computing time 8.111 (min: 0.001, max: 26.173); Mapping Error (MAE): 0.037.
++ Robot-robot-19 takes 5 decisions with a median computing time 7.804 (min: 0.001, max: 27.752); Mapping Error (MAE): 0.037.
++=======================================================
+
