@@ -27,11 +27,11 @@ While  $$|D |> 0 :$$ <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    EndIf    <br/>
 EndWhile <br/>
 
-$$k = length(S)$$	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
+k = length(S)	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the number of lists in  S <br/>
 
 $$P_{\text{per-list}} = \frac{M}{k}$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Calculate the required points per list <br/>
 
-**For** $i = 1$ **to** $N$ <br/>
+**For** $$i$$ = 1 **to** $$N$$ <br/>
  &nbsp;&nbsp;&nbsp;    $$Q \gets P_{\text{per-list}}$$ Equidistant points from $$S[i]$$ <br/>
 &nbsp;&nbsp;&nbsp;    $$D_M$$.append($$Q$$) <br/>
 **EndFor** <br/>
