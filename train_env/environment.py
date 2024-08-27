@@ -4,8 +4,8 @@ import csv
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-from new_sampler import Sampler
-from robot_source import Source
+from train_env.sample_trajectories import Sampler
+from train_env.source import Source
 from geomloss import SamplesLoss
 
 

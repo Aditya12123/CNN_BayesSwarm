@@ -1,12 +1,10 @@
 import os
 import time
 import csv
-from new_supervised_env import RobotEnv
-import numpy as np
-from simple_regression import CNN
+from train_env.environment import RobotEnv
+from train_env.cnn_architecture import CNN
 import torch
 import torch.optim as optim
-# import run_case_studies as cs
 
 batch_size = 5
 env = RobotEnv(batch_size=batch_size)
