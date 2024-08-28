@@ -4,8 +4,8 @@ import csv
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-from train_env.sample_trajectories import Sampler
-from train_env.source import Source
+from sample_trajectories import Sampler
+from source import Source
 from geomloss import SamplesLoss
 
 
@@ -79,15 +79,14 @@ class RobotEnv:
             if self.iter >= self.termination_iter:
                 self.reset()
             
-            path = f"/data1/users/abhatt4/cnn_bayesswarm/CNN_BayesSwarm_RAL/
-                    assets/robots_{self.sampler.n_robots}_trajlen_{self.sampler.trajectory_length}" #'F:\\ADAMS_Lab\\CCR_Train\\cnn_train_env\\assets\\images'
-            if not os.exists(path):
+            path = f"/data1/users/abhatt4/cnn_bayesswarm/CNN_BayesSwarm_RAL/assets/robots_{self.sampler.n_robots}_trajlen_{self.sampler.trajectory_length}" #'F:\\ADAMS_Lab\\CCR_Train\\cnn_train_env\\assets\\images'
+            if not os.path.exists(path):
                 os.makedirs(path)
             limits = np.max(np.abs(self.observations)) + 5
             plt.scatter(self.observations[:, 0], self.observations[:, 1])
             plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title(title + str(self.iter))
             plt.savefig( path + f'/data_iter_{self.iter}.png')
-            plt.show()
+            # plt.show()
 
             # print(self.observations.shape)
         self.num_images = 0
@@ -172,15 +171,15 @@ class RobotEnv:
         sinkhorn_loss = SamplesLoss(loss="sinkhorn", p=2, blur=2)
         dwn_sample_loss = 0
 
-        # for k in range(len(self.total_obs)):
-        #     obs = torch.tensor(self.total_obs[k], dtype=torch.float32).to(self.device)
-        #     dwn = down_sampled[k]
-        #     print(obs.shape, dwn.shape)
-        #     dwn_totalSubset_xy = self.nearest_points(obs, model_output=dwn)
-        #     dwn_sample_loss += sinkhorn_loss(obs[:, :2], dwn[:, :2])
-        #     dwn_sample_loss += self.mse_loss(dwn[:, :2], dwn_totalSubset_xy)
+        for k in range(len(self.total_obs)):
+            obs = torch.tensor(self.total_obs[k], dtype=torch.float32).to(self.device)
+            dwn = down_sampled[k]
+            # print(obs.shape, dwn.shape)
+            dwn_totalSubset_xy = self.nearest_points(obs, model_output=dwn)
+            dwn_sample_loss += sinkhorn_loss(obs[:, :2], dwn[:, :2])
+            dwn_sample_loss += self.mse_loss(dwn[:, :2], dwn_totalSubset_xy)
         
-        # dwn_sample_loss = dwn_sample_loss / self.batch_size
+        dwn_sample_loss = dwn_sample_loss / self.batch_size
 
         loss = dwn_sample_loss
         return loss

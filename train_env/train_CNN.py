@@ -1,8 +1,8 @@
 import os
 import time
 import csv
-from train_env.environment import RobotEnv
-from train_env.cnn_architecture import CNN
+from environment import RobotEnv
+from cnn_architecture import CNN
 import torch
 import torch.optim as optim
 
@@ -10,7 +10,7 @@ batch_size = 5
 env = RobotEnv(batch_size=batch_size)
 epochs = 1
 env.reset()
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 model = CNN().to(device)
 total_images = 9*600
 batches = int(total_images / batch_size)
@@ -37,14 +37,14 @@ for epoch in range(epochs):
         image = image.to(device)
         down_sampled = model(image)
         loss = env.loss(down_sampled)
-        # tr_loss.append(loss.item())
-        # train_loss += loss.item()
+        tr_loss.append(loss.item())
+        train_loss += loss.item()
 
         optimizer.zero_grad()
 
-        # loss.backward()
+        loss.backward()
 
-        # optimizer.step()
+        optimizer.step()
 
     # loss_per_epoch.append(train_loss / batches)
     # if (train_loss/batches) < current_loss:
@@ -57,11 +57,11 @@ for epoch in range(epochs):
             
     # train_loss = 0
 
-    # with open('tr_loss.csv', 'a', newline='') as file:
-    #     writer = csv.writer(file)
-    #     for ls in tr_loss:
-    #         writer.writerow([ls])
-    #     writer.writerow([f"Epoch: {epoch}"])
+    with open('tr_loss.csv', 'a', newline='') as file:
+        writer = csv.writer(file)
+        for ls in tr_loss:
+            writer.writerow([ls])
+        writer.writerow([f"Epoch: {epoch}"])
 
     # with open('loss_per_epoch.csv', 'w', newline='') as file:
     #     writer = csv.writer(file)
