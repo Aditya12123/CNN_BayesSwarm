@@ -47,8 +47,8 @@ class RobotEnv:
                     title = 'remaining_lines'
 
                 else:
-                    self.observations, self.trajectory_endpoints = self.sampler.just_one_robot(self.observations, self.trajectory_endpoints)
-                    title = 'just_one_robot'
+                    self.observations, self.trajectory_endpoints = self.sampler.move_a_robot(self.observations, self.trajectory_endpoints)
+                    title = 'move_a_robot'
 
             else:
 
@@ -61,12 +61,12 @@ class RobotEnv:
                     title = 'remaining_lines'
                 
                 elif self.iter < termination_lines:
-                    self.observations, self.trajectory_endpoints = self.sampler.random_centre_lines(self.observations, self.trajectory_endpoints)
-                    title = 'random_centre_lines'
+                    self.observations, self.trajectory_endpoints = self.sampler.random_first_waypoint(self.observations, self.trajectory_endpoints)
+                    title = 'random_first_waypoint'
 
                 else:
-                    self.observations, self.trajectory_endpoints = self.sampler.random_observations(self.observations, self.trajectory_endpoints)
-                    title = 'random_observations'
+                    self.observations, self.trajectory_endpoints = self.sampler.random_robot_travel(self.observations, self.trajectory_endpoints)
+                    title = 'random_robot_travel'
 
             if self.num_images == 1:
                 self.total_obs = []
@@ -79,11 +79,14 @@ class RobotEnv:
             if self.iter >= self.termination_iter:
                 self.reset()
             
+            path = f"/data1/users/abhatt4/cnn_bayesswarm/CNN_BayesSwarm_RAL/
+                    assets/robots_{self.sampler.n_robots}_trajlen_{self.sampler.trajectory_length}" #'F:\\ADAMS_Lab\\CCR_Train\\cnn_train_env\\assets\\images'
+            if not os.exists(path):
+                os.makedirs(path)
             limits = np.max(np.abs(self.observations)) + 5
             plt.scatter(self.observations[:, 0], self.observations[:, 1])
             plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title(title + str(self.iter))
-            path = "/data1/users/abhatt4/cnn_bayesswarm/CNN_BayesSwarm_RAL/assets/images" #'F:\\ADAMS_Lab\\CCR_Train\\cnn_train_env\\assets\\images'
-            plt.savefig( path + f'/location_points_iter_{self.iter}.png')
+            plt.savefig( path + f'/data_iter_{self.iter}.png')
             plt.show()
 
             # print(self.observations.shape)
@@ -156,8 +159,6 @@ class RobotEnv:
         """
         Implementation of NearestPoints function of Algorithm1
 
-        :param input_observations: Input Observations
-        :param model_output: Down-sampled observations that the model outputs
         :return: Nearest observations among the input observations to the down-sampled observations in the 
                  euclidean space
                  

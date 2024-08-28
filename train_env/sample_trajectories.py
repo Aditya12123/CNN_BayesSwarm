@@ -10,7 +10,7 @@ class Sampler:
         self.observation_frequency = obs_frequency
         self.velocity = velocity
         self.resolution = resolution
-        self.iterations = 0
+        self.random_travel_counter = 0
         self.robots_arr = [20, 30, 50]
         self.distance_arr = [10, 15, 22, 30, 50]
 
@@ -38,22 +38,15 @@ class Sampler:
 
             location_data = np.clip(location_data, self.lb, self.ub)
 
-        # while len(location_data) < min_datapoints:
-        #     location_data, trajectory_endpoints = self.random_observations(
-        #         location_data, trajectory_endpoints
-        #     )
+        while len(location_data) < min_datapoints:
+            location_data, trajectory_endpoints = self.random_robot_travel(
+                location_data, trajectory_endpoints
+            )
 
-        # limits = 10#np.max(np.abs(location_data)) + 5
-        # print(location_data)
-        # plt.scatter(location_data[:, 0], location_data[:, 1])
-        # plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title('sampler')
-        # # plt.savefig(f'datapoints_iter_{self.iter}')
-        # plt.show()
         return location_data, trajectory_endpoints
 
     def reset(self, source, reset_counter):
         
-        self.robot_iterations = 0
         self.data, self.lb, self.ub = source.get_info()      
         self.centre_pt = [0, 0]
         self.dist_x = self.dist_y = self.observation_frequency * self.velocity
@@ -64,82 +57,82 @@ class Sampler:
         dist_tr_counter = np.mod(dist_tr_counter, len(self.distance_arr))
 
         self.n_robots = self.robots_arr[n_robots_counter]
-        self.x = 0
-
         self.trajectory_length = self.distance_arr[dist_tr_counter]
 
         print(f"Robots: {self.n_robots}, dist: {self.trajectory_length}")
 
         location_data, trajectory_endpoints = self.generate_initial_trajectory()
 
-        self.iterations = 0
-
+        self.random_travel_counter = 0 # reset counter for the function calls of random_robot_travel()
+        self.move_robot_counter = 0 # reset counter for the function calls of move_a_robot()
+        self.move_current_robot = 0 # reset the robot to 0 for move_a_robot()
+        
         return location_data, trajectory_endpoints
 
-    def remaining_lines(self, D_old, store_arr):
-        store_arr_new = store_arr.copy()
-        theta = (len(store_arr) + 1) * 360 / self.n_robots
+    def remaining_lines(self, previous_points, prev_traj_endpts):
+        """
+        completes the axes in the wheel
+        """
+
+        traj_endpts = prev_traj_endpts.copy()
+        theta = (len(prev_traj_endpts) + 1) * 360 / self.n_robots
         theta = theta * np.pi / 180
-        pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
+        pts = previous_points[len(previous_points) - 1, :2].reshape(1, 2)
 
         for j in range(self.trajectory_length):
             x = self.centre_pt[0] + np.cos(theta) * j * self.dist_x
             y = self.centre_pt[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
 
-        store_arr_new.append(pts[len(pts) - 1])
-        new_obs = np.vstack((D_old[:, :2], pts))
+        traj_endpts.append(pts[len(pts) - 1])
+        new_obs = np.vstack((previous_points[:, :2], pts))
 
-        # plt.scatter(new_obs[:, 0], new_obs[:, 1]), plt.title("Remaining_Lines")
-        # plt.xlim(-24, 24), plt.ylim(-24, 24)
-        # plt.show()
+        return np.clip(new_obs, self.lb, self.ub), traj_endpts
 
-        return np.clip(new_obs, self.lb, self.ub), store_arr_new
-
-    def random_centre_lines(self, D_old, store_arr):
-
-        store_arr_new = store_arr.copy()
+    def random_first_waypoint(self, previous_points, prev_traj_endpts):
+        """
+        Generates trajectories at random angles from the center. the trajectories are of same length as defined by self.trajectory_length 
+        during reset
+        """
+        traj_endpts = prev_traj_endpts.copy()
         theta = np.random.randint(1, 359)
         theta = theta * np.pi / 180
-        pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
+        pts = previous_points[len(previous_points) - 1, :2].reshape(1, 2)
 
         for j in range(self.trajectory_length):
             x = self.centre_pt[0] + np.cos(theta) * j * self.dist_x
             y = self.centre_pt[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
 
-        store_arr_new.append(pts[len(pts) - 1])
-        new_obs = np.vstack((D_old[:, :2], pts))
+        traj_endpts.append(pts[len(pts) - 1])
+        new_obs = np.vstack((previous_points[:, :2], pts))
 
-        # plt.scatter(new_obs[:, 0], new_obs[:, 1]), plt.title("Remaining_Lines")
-        # plt.xlim(-24, 24), plt.ylim(-24, 24)
-        # plt.show()
+        return np.clip(new_obs, self.lb, self.ub), traj_endpts
 
-        return np.clip(new_obs, self.lb, self.ub), store_arr_new
-
-    def random_observations(self, D_old, store_arr):
-        store_arr_new = store_arr.copy()
-        current_index = np.mod(self.iterations, len(store_arr))
+    def random_robot_travel(self, previous_points, prev_traj_endpts):
+        """
+        Starting with the first robot each time this function is called, successive robot moves in a random direction 
+        upto certain random distance
+        """
+        traj_endpts = prev_traj_endpts.copy()
+        current_robot = np.mod(self.random_travel_counter, len(prev_traj_endpts))
         theta = np.random.randint(10, 350)
         theta = theta * np.pi / 180
         trajectory_length = np.random.randint(3, 50)
-        req_pts = store_arr_new[current_index]
-        pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
+        robot_traj_endpoint = traj_endpts[current_robot]
+        pts = previous_points[len(previous_points) - 1, :2].reshape(1, 2)
 
         for j in range(trajectory_length):
-            x = req_pts[0] + np.cos(theta) * j * self.dist_x
-            y = req_pts[1] + np.sin(theta) * j * self.dist_y
+            x = robot_traj_endpoint[0] + np.cos(theta) * j * self.dist_x
+            y = robot_traj_endpoint[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
 
-        store_arr_new[current_index] = pts[len(pts) - 1]
+        traj_endpts[current_robot] = pts[len(pts) - 1]
 
-        new_obs = np.vstack((D_old[:, :2], pts))
-        self.iterations += 1
-        # plt.scatter(new_obs[:, 0], new_obs[:, 1])
-        # plt.xlim(-24, 24), plt.ylim(-24, 24)
-        # plt.show()
+        new_obs = np.vstack((previous_points[:, :2], pts))
+        self.random_travel_counter += 1
 
-        return np.clip(new_obs, self.lb, self.ub), store_arr_new
+        return np.clip(new_obs, self.lb, self.ub), traj_endpts
 
     def initial_shape_reset(self):
 
@@ -165,42 +158,49 @@ class Sampler:
             pts = np.clip(pts, self.lb, self.ub)
 
         while len(pts) < r:
-            pts, store_arr = self.random_observations(pts, store_arr)
+            pts, store_arr = self.random_robot_travel(pts, store_arr)
 
-        self.iterations = 0
-        # plt.scatter(D_old[:, 0], D_old[:, 1]), plt.title(f"total_obs: {len(D_old)}, r: {r}, n_robots: {self.n_robots}")
+        self.random_travel_counter = 0
+        # plt.scatter(previous_points[:, 0], previous_points[:, 1]), plt.title(f"total_obs: {len(previous_points)}, r: {r}, n_robots: {self.n_robots}")
         # plt.xlim(-24, 24), plt.ylim(-24, 24)
         # plt.show()
 
         return pts, store_arr
 
-    def just_one_robot(self, D_old, store_arr):
-        store_arr_new = store_arr.copy()
-        if self.x < len(store_arr):
-            if self.robot_iterations % 15 == 0:
-                self.x += np.random.randint(1, 3)
+    def move_a_robot(self, previous_points, prev_traj_endpts):
+        """
+        keeps simulating movement of a robot upto certain iterations (move_robot_counter)
+        """
+        traj_endpts = prev_traj_endpts.copy()
+        if self.move_current_robot < len(prev_traj_endpts):
+            if self.move_robot_counter % 15 == 0:
+                self.move_current_robot += np.random.randint(1, 3)
         else:
-            self.x = 1
-        current_index = np.mod(self.x, len(store_arr))
+            self.move_current_robot = 1
+        current_robot = np.mod(self.move_current_robot, len(prev_traj_endpts))
 
-        # current_index = np.random.randint(0, len(store_arr))
         theta = np.random.randint(10, 350)
         theta = theta * np.pi / 180
         trajectory_length = np.random.randint(3, 10)
-        req_pts = store_arr_new[current_index]
-        pts = D_old[len(D_old) - 1, :2].reshape(1, 2)
+        robot_traj_endpoint = traj_endpts[current_robot]
+        pts = previous_points[len(previous_points) - 1, :2].reshape(1, 2)
 
         for j in range(trajectory_length):
-            x = req_pts[0] + np.cos(theta) * j * self.dist_x
-            y = req_pts[1] + np.sin(theta) * j * self.dist_y
+            x = robot_traj_endpoint[0] + np.cos(theta) * j * self.dist_x
+            y = robot_traj_endpoint[1] + np.sin(theta) * j * self.dist_y
             pts = np.vstack((pts, np.array([x, y])))
 
-        store_arr_new[current_index] = pts[len(pts) - 1]
+        traj_endpts[current_robot] = pts[len(pts) - 1]
 
-        new_obs = np.vstack((D_old[:, :2], pts))
-        self.robot_iterations += 1
-        # plt.scatter(new_obs[:, 0], new_obs[:, 1])
-        # plt.xlim(-24, 24), plt.ylim(-24, 24)
+        new_obs = np.vstack((previous_points[:, :2], pts))
+        self.move_robot_counter += 1
+
+        return np.clip(new_obs, self.lb, self.ub), traj_endpts
+    
+    def plot_data(self, location_data):
+        # limits = np.max(np.abs(location_data)) + 2
+        # plt.scatter(location_data[:, 0], location_data[:, 1])
+        # plt.xlim(-limits, limits), plt.ylim(-limits, limits), plt.title('sampler')
+        # # plt.savefig(f'datapoints_iter_{self.iter}')
         # plt.show()
-
-        return np.clip(new_obs, self.lb, self.ub), store_arr_new
+        pass
