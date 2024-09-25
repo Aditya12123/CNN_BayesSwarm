@@ -1,5 +1,3 @@
-theme: jekyll-theme-minimal
-
 # Learning-based Real-time Down-sampling for Scalable Decentralized Decision-Making in Swarm Search <br/>
 
 ![alt text](images/zenodo.13368060.svg)
