@@ -2,7 +2,7 @@
 
 
 Env2: <br/>
-<img src="test_env/env2.png" width="200" height="200">
+<img src="env2.png" width="200" height="200">
 
 Each folder has codes implementation of Bayes-Swarm with the respective down-sampler
 
