@@ -89,3 +89,5 @@ All the experiments were performed on the environment shown Figure 5(a) with hig
 <img src="RAL_results/results_plots/png_plots/env2_results/freq_5/env2_35_robots_speed1.png" width="200" height="200">
 <img src="RAL_results/results_plots/png_plots/env2_results/freq_5/env2_50_robots_speed1.png" width="200" height="200">
 
+**The codes for test environment-2 with CNN-BayesSwarm along with baseline down-samplers are in test_env folder**
+**The codes to train a CNN architecture using our low-fidelity training environment are in train_env folder**
