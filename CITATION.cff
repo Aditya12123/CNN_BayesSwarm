@@ -1,0 +1,15 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Bayes-Swarm-CNN
+message: >-
+  If you use this dataset, please cite it using the metadata
+  from this file.
+type: dataset
+authors:
+  - given-names: Aditya Bhatt
+    email: abhatt4@buffalo.edu
+    affiliation: ADAMS Lab
+    orcid: 'https://orcid.org/0009-0005-0999-4413'
+repository-code: 'https://github.com/adamslab-ub/CNN_Bayes_Swarm'
